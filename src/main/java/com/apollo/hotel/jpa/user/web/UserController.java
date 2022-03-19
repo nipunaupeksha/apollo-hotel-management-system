@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -61,17 +62,16 @@ public class UserController {
     }
 
     // tag::edit-get[]
-    @GetMapping("/{id}") //<.>
-    public String editUserForm(@PathVariable("id") UserId userId, //<.>
-                               Model model) {
+    @GetMapping("/{id}")
+    public String editUserForm(@PathVariable("id") UserId userId, Model model) {
         User user = service.getUser(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId)); //<.>
-        model.addAttribute("user", EditUserFormData.fromUser(user)); //<.>
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        model.addAttribute("user", EditUserFormData.fromUser(user));
         model.addAttribute("genders", Stream.of(
                 new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
         model.addAttribute("types", Stream.of(
                 new Type[]{Type.USER, Type.ADMIN}).collect(Collectors.toList()));
-        model.addAttribute("editMode", EditMode.UPDATE); //<.>
+        model.addAttribute("editMode", EditMode.UPDATE);
         return "users/edit"; //<.>
     }
     // end::edit-get[]
@@ -92,6 +92,20 @@ public class UserController {
         }
 
         service.editUser(userId, formData.toParameters());
+
+        return "redirect:/users";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String doDeleteUser(@PathVariable("id") UserId userId,
+                               RedirectAttributes redirectAttributes) {
+        User user = service.getUser(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        service.deleteUser(userId);
+
+        redirectAttributes.addFlashAttribute("deletedUserName",
+                user.getUserName().getFullName());
 
         return "redirect:/users";
     }

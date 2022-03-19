@@ -42,13 +42,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User editUser(UserId userId, EditUserParameters parameters) {
         User user = repository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId)); //<.>
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
-        if (parameters.getVersion() != user.getVersion()) { //<.>
+        if (parameters.getVersion() != user.getVersion()) {
             throw new ObjectOptimisticLockingFailureException(User.class, user.getId().asString());
         }
 
-        parameters.update(user); //<.>
+        parameters.update(user);
         return user;
     }
 
@@ -57,4 +57,8 @@ public class UserServiceImpl implements UserService {
         return repository.findById(userId);
     }
 
+    @Override
+    public void deleteUser(UserId userId) {
+        repository.deleteById(userId);
+    }
 }

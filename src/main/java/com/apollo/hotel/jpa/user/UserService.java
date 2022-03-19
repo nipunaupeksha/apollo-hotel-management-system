@@ -15,5 +15,7 @@ public interface UserService {
     User editUser(UserId userId, EditUserParameters parameters);
 
     Optional<User> getUser(UserId userId);
+
+    void deleteUser(UserId userId);
 }
 
