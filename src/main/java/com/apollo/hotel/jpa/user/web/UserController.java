@@ -1,18 +1,14 @@
 package com.apollo.hotel.jpa.user.web;
 
 import com.apollo.hotel.infrastructure.validation.ValidationGroupSequence;
-import com.apollo.hotel.jpa.user.Gender;
-import com.apollo.hotel.jpa.user.Type;
-import com.apollo.hotel.jpa.user.UserService;
+import com.apollo.hotel.infrastructure.web.EditMode;
+import com.apollo.hotel.jpa.user.*;
 import com.apollo.hotel.jpa.user.web.CreateUserFormData;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 
@@ -43,6 +39,7 @@ public class UserController {
                 new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
         model.addAttribute("types", Stream.of(
                 new Type[]{Type.USER, Type.ADMIN}).collect(Collectors.toList()));
+        model.addAttribute("editMode", EditMode.CREATE);
         return "users/edit";
     }
 
@@ -54,10 +51,47 @@ public class UserController {
                     new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
             model.addAttribute("types", Stream.of(
                     new Type[]{Type.USER, Type.ADMIN}).collect(Collectors.toList()));
+            model.addAttribute("editMode", EditMode.CREATE);
             return "users/edit";
         }
 
         service.createUser(formData.toParameters());
+
+        return "redirect:/users";
+    }
+
+    // tag::edit-get[]
+    @GetMapping("/{id}") //<.>
+    public String editUserForm(@PathVariable("id") UserId userId, //<.>
+                               Model model) {
+        User user = service.getUser(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId)); //<.>
+        model.addAttribute("user", EditUserFormData.fromUser(user)); //<.>
+        model.addAttribute("genders", Stream.of(
+                new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
+        model.addAttribute("types", Stream.of(
+                new Type[]{Type.USER, Type.ADMIN}).collect(Collectors.toList()));
+        model.addAttribute("editMode", EditMode.UPDATE); //<.>
+        return "users/edit"; //<.>
+    }
+    // end::edit-get[]
+
+    // tag::edit-post[]
+    @PostMapping("/{id}")
+    public String doEditUser(@PathVariable("id") UserId userId,
+                             @Validated(EditUserValidationGroupSequence.class) @ModelAttribute("user") EditUserFormData formData, //<.>
+                             BindingResult bindingResult,
+                             Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("genders", Stream.of(
+                    new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
+            model.addAttribute("types", Stream.of(
+                    new Type[]{Type.USER, Type.ADMIN}).collect(Collectors.toList()));
+            model.addAttribute("editMode", EditMode.UPDATE);
+            return "users/edit";
+        }
+
+        service.editUser(userId, formData.toParameters());
 
         return "redirect:/users";
     }
