@@ -9,5 +9,4 @@ public class ApolloHotelManagementApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApolloHotelManagementApplication.class, args);
 	}
-
 }

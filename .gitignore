@@ -6,6 +6,7 @@ target/
 node_modules
 node
 .env
+application-local.properties
 
 ### STS ###
 .apt_generated

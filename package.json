@@ -1,5 +1,5 @@
 {
-  "name": "taming-thymeleaf-app",
+  "name": "apollo-hotel-management",
   "scripts": {
     "watch": "gulp watch",
     "build": "gulp build",

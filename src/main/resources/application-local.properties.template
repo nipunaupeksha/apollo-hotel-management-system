@@ -6,6 +6,6 @@ spring.web.resources.chain.strategy.content.paths=/**
 spring.datasource.url=jdbc:postgresql://localhost:5432/apollo
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.datasource.username=postgres
-spring.datasource.password=postgres
+spring.datasource.password=pstgrspwd
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=validate

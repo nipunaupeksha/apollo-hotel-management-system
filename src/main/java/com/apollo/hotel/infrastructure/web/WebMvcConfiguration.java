@@ -1,4 +1,4 @@
-package com.apollo.hotel.configurations;
+package com.apollo.hotel.infrastructure.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
