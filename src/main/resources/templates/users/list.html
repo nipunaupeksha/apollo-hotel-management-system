@@ -9,11 +9,11 @@
 </head>
 <body>
 <div layout:fragment="page-content">
-    <!-- tag::title[] -->
-    <div th:replace="fragments/titles :: title-with-button(#{users.title}, 'user-add', #{users.add}, @{/users/create})"></div>
-    <!-- end::title[] -->
+    <div th:replace="fragments/titles :: title-with-button(#{users.title}, 'user-add', #{users.add}, @{/users/create})"
+         sec:authorize="hasRole('ADMIN')"></div>
+
     <div th:if="${deletedUserName}">
-        <div th:replace="fragments/alerts :: success(#{user.delete.success(${deletedUserName})})"></div>
+        <div th:replace="fragments/alerts :: success(#{user.delete.success(${deletedUserName})})"></div> <!--.-->
     </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="py-4">
@@ -22,36 +22,37 @@
                     <div class="align-middle inline-block min-w-full shadow overflow-hidden rounded-md sm:rounded-lg border-b border-gray-200">
                         <table class="min-w-full">
                             <thead>
-                            <!-- tag::tr[] -->
                             <tr>
                                 <th th:replace="fragments/table :: header(#{user.name})"></th>
                                 <th th:replace="fragments/table :: header(title=#{user.gender},hideOnMobile=true)"></th>
-                                <th th:replace="fragments/table :: header(title=#{user.type},hideOnMobile=true)"></th>
                                 <th th:replace="fragments/table :: header(title=#{user.email},hideOnMobile=true)"></th>
-                                <th th:replace="fragments/table :: header('')"></th>
-                                <th th:replace="fragments/table :: header('')"></th>
+                                <th:block sec:authorize="hasRole('ADMIN')"> <!--.-->
+                                    <th th:replace="fragments/table :: header('')"></th>
+                                    <th th:replace="fragments/table :: header('')"></th>
+                                </th:block>
                             </tr>
-                            <!-- end::tr[] -->
                             </thead>
                             <tbody>
-                            <!-- tag::tr-body[] -->
                             <tr class="bg-white" th:each="user : ${users}">
                                 <td th:replace="fragments/table :: data(contents=${user.userName.fullName},primary=true)"></td>
                                 <td th:replace="fragments/table :: data(contents=${user.gender},hideOnMobile=true)"></td>
-                                <td th:replace="fragments/table :: data(contents=${user.type},hideOnMobile=true)"></td>
                                 <td th:replace="fragments/table :: data(contents=${user.email.asString()},hideOnMobile=true)"></td>
-                                <td th:replace="fragments/table :: dataWithLink('Edit', @{'/users/'+ ${user.id.asString()}})"></td>
-                                <td th:x-data="|{name: '${user.userName.fullName}', deleteUrl: '/users/${user.id.asString()}/delete'}|"
-                                    class="px-6 py-4 whitespace-no-wrap text-right text-sm font-medium">
-                                    <a href="javascript:void(0)"
-                                       class="text-red-600 hover:text-red-900"
-                                       @click="$dispatch('open-delete-modal', {name, deleteUrl})">Delete</a>
-                                </td>
+                                <!-- tag::td-admin[] -->
+                                <th:block sec:authorize="hasRole('ADMIN')"> <!--.-->
+                                    <td th:replace="fragments/table :: dataWithLink('Edit', @{'/users/'+ ${user.id.asString()}})"></td>
+                                    <td th:x-data="|{name: '${user.userName.fullName}', deleteUrl: '/users/${user.id.asString()}/delete'}|"
+                                        class="px-6 py-4 whitespace-no-wrap text-right text-sm font-medium">
+                                        <a href="javascript:void(0)"
+                                           class="text-red-600 hover:text-red-900"
+                                           @click="$dispatch('open-delete-modal', {name, deleteUrl})">Delete</a>
+                                    </td>
+                                </th:block>
                             </tr>
-                            <!-- end::tr-body[] -->
                             </tbody>
                         </table>
-                        <div th:replace="fragments/pagination :: controls(page=${users})"></div>
+                        <th:block th:if="${users.content.size() > 0}">
+                            <div th:replace="fragments/pagination :: controls(page=${users})"></div>
+                        </th:block>
                     </div>
                 </div>
             </div>
@@ -65,9 +66,6 @@
              @open-delete-modal.window="showModal($event)"
              class="fixed z-10 inset-0 overflow-y-auto"> <!--.-->
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <!--
-                  Background overlay
-                -->
                 <div class="fixed inset-0 transition-opacity"
                      aria-hidden="true"
                      x-show="isVisible()"
@@ -80,11 +78,7 @@
                     <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
                 </div>
 
-                <!-- This element is to trick the browser into centering the modal contents. -->
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"></span>&#8203;
-                <!--
-                  Modal panel
-                -->
                 <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
                      role="dialog" aria-modal="true" aria-labelledby="modal-headline"
                      x-show="isVisible()"
@@ -116,11 +110,9 @@
                     </div>
                     <form id="deleteForm" enctype="multipart/form-data" method="post"
                           x-bind:action="getDeleteUrl()"> <!--.-->
-                        <!--
-                                                <input type="hidden"
-                                                       th:name="${_csrf.parameterName}"
-                                                       th:value="${_csrf.token}"/>
-                        -->
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}"/>
                         <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
         <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
           <button type="submit"
@@ -169,9 +161,7 @@
             };
         }
     </script>
-    <!-- tag::success-js[] -->
-    <script th:replace="fragments/alerts :: success-js"></script>
-    <!-- end::success-js[] -->
+    <script th:replace="fragments/alerts :: alert-js"></script>
 </th:block>
 </body>
 </html>

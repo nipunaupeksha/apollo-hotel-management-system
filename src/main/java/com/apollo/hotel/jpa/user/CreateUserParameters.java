@@ -1,16 +1,18 @@
 package com.apollo.hotel.jpa.user;
 
+import com.sun.istack.Nullable;
+
 public class CreateUserParameters {
     private final UserName userName;
+    private final String password;
     private final Gender gender;
-    private final Type type;
     private final Email email;
     private final PhoneNumber phoneNumber;
 
-    public CreateUserParameters(UserName userName, Gender gender, Type type, Email email, PhoneNumber phoneNumber) {
+    public CreateUserParameters(UserName userName, String password,Gender gender, Email email, PhoneNumber phoneNumber) {
         this.userName = userName;
+        this.password = password;
         this.gender = gender;
-        this.type = type;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
@@ -19,12 +21,13 @@ public class CreateUserParameters {
         return userName;
     }
 
-    public Gender getGender() {
-        return gender;
+    @Nullable
+    public String getPassword() {
+        return password;
     }
 
-    public Type getType() {
-        return type;
+    public Gender getGender() {
+        return gender;
     }
 
     public Email getEmail() {

@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface UserService {
     User createUser(CreateUserParameters parameters);
 
+    User createAdministrator(CreateUserParameters parameters);
+
     Page<User> getUsers(Pageable pageable);
 
     boolean userWithEmailExists(Email email);

@@ -16,7 +16,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.Month;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,25 +45,24 @@ class UserRepositoryTest {
     @Test
     void testSaveUser() {
         UserId id = repository.nextId();
-        repository.save(new User(id,
+        repository.save(User.createUser(id,
                 new UserName("Tommy", "Walton"),
+                "encoded-secret-pwd",
                 Gender.MALE,
-                Type.ADMIN,
                 new Email("tommy.walton@gmail.com"),
                 new PhoneNumber("202 555 0192")));
 
         entityManager.flush();
 
-        assertThat(jdbcTemplate.queryForObject("SELECT id FROM tt_user", UUID.class)).isEqualTo(id.getId());
-        assertThat(jdbcTemplate.queryForObject("SELECT first_name FROM tt_user", String.class)).isEqualTo("Tommy");
-        assertThat(jdbcTemplate.queryForObject("SELECT last_name FROM tt_user", String.class)).isEqualTo("Walton");
-        assertThat(jdbcTemplate.queryForObject("SELECT gender FROM tt_user", Gender.class)).isEqualTo(Gender.MALE);
-        assertThat(jdbcTemplate.queryForObject("SELECT type FROM tt_user", Type.class)).isEqualTo(Type.ADMIN);
-        assertThat(jdbcTemplate.queryForObject("SELECT email FROM tt_user", String.class)).isEqualTo("tommy.walton@gmail.com");
-        assertThat(jdbcTemplate.queryForObject("SELECT phone_number FROM tt_user", String.class)).isEqualTo("202 555 0192");
+        assertThat(jdbcTemplate.queryForObject("SELECT id FROM ah_user", UUID.class)).isEqualTo(id.getId());
+        assertThat(jdbcTemplate.queryForObject("SELECT first_name FROM ah_user", String.class)).isEqualTo("Tommy");
+        assertThat(jdbcTemplate.queryForObject("SELECT last_name FROM ah_user", String.class)).isEqualTo("Walton");
+        assertThat(jdbcTemplate.queryForObject("SELECT password FROM ah_user", String.class)).isEqualTo("encoded-secret-pwd");
+        assertThat(jdbcTemplate.queryForObject("SELECT gender FROM ah_user", Gender.class)).isEqualTo(Gender.MALE);
+        assertThat(jdbcTemplate.queryForObject("SELECT email FROM ah_user", String.class)).isEqualTo("tommy.walton@gmail.com");
+        assertThat(jdbcTemplate.queryForObject("SELECT phone_number FROM ah_user", String.class)).isEqualTo("202 555 0192");
     }
 
-    // tag::testFindAllPageable[]
     @Test
     void testFindAllPageable() {
         saveUsers(8); //<.>
@@ -83,18 +81,55 @@ class UserRepositoryTest {
         assertThat(repository.findAll(PageRequest.of(2, 5, sort))).isEmpty(); //<.>
     }
 
+    // tag::testFindAllPageable[]
+    @Test
+    void testExistsByEmail() {
+        UserId id = repository.nextId();
+        repository.save(User.createUser(id,
+                new UserName("Tommy", "Walton"),
+                "encoded-secret-pwd",
+                Gender.MALE,
+                new Email("tommy.walton@gmail.com"),
+                new PhoneNumber("202 555 0192")));
+
+        entityManager.flush();
+
+        assertThat(repository.existsByEmail(new Email("tommy.walton@gmail.com"))).isTrue();
+        assertThat(repository.existsByEmail(new Email("nobody@gmail.com"))).isFalse();
+    }
+
+    @Test
+    void testDelete() {
+        UserId id = repository.nextId();
+        repository.save(User.createUser(id,
+                new UserName("Tommy", "Walton"),
+                "encoded-secret-pwd",
+                Gender.MALE,
+                new Email("tommy.walton@gmail.com"),
+                new PhoneNumber("202 555 0192")));
+        entityManager.flush();
+        assertThat(repository.count()).isOne();
+
+        repository.deleteById(id);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        assertThat(repository.count()).isZero();
+    }
+
+    // end::testFindAllPageable[]
+
     private void saveUsers(int numberOfUsers) {
         for (int i = 0; i < numberOfUsers; i++) {
-            repository.save(new User(repository.nextId(),
+            repository.save(User.createUser(repository.nextId(),
                     new UserName(String.format("Tommy%d", i), i % 2 == 0 ? "Walton" : "Holt"),
-                    Gender.MALE,
-                    Type.ADMIN,
+                    "encoded-secret-pwd", Gender.MALE,
                     new Email("tommy.walton" + i +
                             "@gmail.com"),
                     new PhoneNumber("202 555 0192")));
         }
     }
-    // end::testFindAllPageable[]
 
     @TestConfiguration
     static class TestConfig {

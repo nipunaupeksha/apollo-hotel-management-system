@@ -6,6 +6,7 @@ import com.apollo.hotel.jpa.user.*;
 import com.apollo.hotel.jpa.user.web.CreateUserFormData;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,24 +35,24 @@ public class UserController {
     }
 
     @GetMapping("/create")
+    @Secured("ROLE_ADMIN")
     public String createUserForm(Model model) {
         model.addAttribute("user", new CreateUserFormData());
         model.addAttribute("genders", Stream.of(
                 new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
-        model.addAttribute("types", Stream.of(
-                new Type[]{Type.USER, Type.ADMIN}).collect(Collectors.toList()));
+        model.addAttribute("possibleRoles", Stream.of(UserRole.values()).collect(Collectors.toList()));
         model.addAttribute("editMode", EditMode.CREATE);
         return "users/edit";
     }
 
     @PostMapping("/create")
+    @Secured("ROLE_ADMIN")
     public String doCreateUser(@Validated(ValidationGroupSequence.class) @ModelAttribute("user") CreateUserFormData formData,
                                BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("genders", Stream.of(
                     new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
-            model.addAttribute("types", Stream.of(
-                    new Type[]{Type.USER, Type.ADMIN}).collect(Collectors.toList()));
+            model.addAttribute("possibleRoles", Stream.of(UserRole.values()).collect(Collectors.toList()));
             model.addAttribute("editMode", EditMode.CREATE);
             return "users/edit";
         }
@@ -69,8 +70,7 @@ public class UserController {
         model.addAttribute("user", EditUserFormData.fromUser(user));
         model.addAttribute("genders", Stream.of(
                 new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
-        model.addAttribute("types", Stream.of(
-                new Type[]{Type.USER, Type.ADMIN}).collect(Collectors.toList()));
+        model.addAttribute("possibleRoles", Stream.of(UserRole.values()).collect(Collectors.toList()));
         model.addAttribute("editMode", EditMode.UPDATE);
         return "users/edit"; //<.>
     }
@@ -78,6 +78,7 @@ public class UserController {
 
     // tag::edit-post[]
     @PostMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public String doEditUser(@PathVariable("id") UserId userId,
                              @Validated(EditUserValidationGroupSequence.class) @ModelAttribute("user") EditUserFormData formData, //<.>
                              BindingResult bindingResult,
@@ -85,8 +86,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("genders", Stream.of(
                     new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
-            model.addAttribute("types", Stream.of(
-                    new Type[]{Type.USER, Type.ADMIN}).collect(Collectors.toList()));
+            model.addAttribute("possibleRoles", Stream.of(UserRole.values()).collect(Collectors.toList()));
             model.addAttribute("editMode", EditMode.UPDATE);
             return "users/edit";
         }
@@ -97,6 +97,7 @@ public class UserController {
     }
 
     @PostMapping("/{id}/delete")
+    @Secured("ROLE_ADMIN")
     public String doDeleteUser(@PathVariable("id") UserId userId,
                                RedirectAttributes redirectAttributes) {
         User user = service.getUser(userId)

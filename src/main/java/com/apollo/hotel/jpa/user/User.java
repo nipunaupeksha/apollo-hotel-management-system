@@ -2,16 +2,25 @@ package com.apollo.hotel.jpa.user;
 
 import io.github.wimdeblauwe.jpearl.AbstractVersionedEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
-@Table(name="ah_user")
+@Table(name = "ah_user")
 public class User extends AbstractVersionedEntity<UserId> {
+
+    @ElementCollection(targetClass = UserRole.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles")
+    @Column(name = "role")
+    private Set<UserRole> roles;
+
+    @NotNull
+    private String password;
 
     @NotNull
     private UserName userName;
@@ -19,10 +28,6 @@ public class User extends AbstractVersionedEntity<UserId> {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private Type type;
 
     @NotNull
     private Email email;
@@ -34,17 +39,47 @@ public class User extends AbstractVersionedEntity<UserId> {
     }
 
     public User(UserId id,
+                Set<UserRole> roles,
                 UserName userName,
+                String password,
                 Gender gender,
-                Type type,
                 Email email,
                 PhoneNumber phoneNumber) {
         super(id);
         this.userName = userName;
+        this.roles = roles;
+        this.password = password;
         this.gender = gender;
-        this.type = type;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    public static User createUser(UserId id,
+                                  UserName userName,
+                                  String encodedPassword,
+                                  Gender gender,
+                                  Email email,
+                                  PhoneNumber phoneNumber) {
+        return new User(id, Stream.of(UserRole.USER).collect(Collectors.toCollection(HashSet::new)),
+                userName, encodedPassword, gender, email, phoneNumber);
+    }
+
+    public static User createAdministrator(UserId id,
+                                           UserName userName,
+                                           String encodedPassword,
+                                           Gender gender,
+                                           Email email,
+                                           PhoneNumber phoneNumber) {
+        return new User(id, Stream.of(UserRole.USER, UserRole.ADMIN).collect(Collectors.toCollection(HashSet::new)),
+                userName, encodedPassword, gender, email, phoneNumber);
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public UserName getUserName() {
@@ -53,10 +88,6 @@ public class User extends AbstractVersionedEntity<UserId> {
 
     public Gender getGender() {
         return gender;
-    }
-
-    public Type getType() {
-        return type;
     }
 
     public Email getEmail() {
@@ -73,10 +104,6 @@ public class User extends AbstractVersionedEntity<UserId> {
 
     public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
     }
 
     public void setEmail(Email email) {
