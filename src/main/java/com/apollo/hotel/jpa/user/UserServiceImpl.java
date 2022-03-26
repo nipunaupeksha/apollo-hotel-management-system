@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean userWithEmailExists(Email email){
+    public boolean userWithEmailExists(Email email) {
         return repository.existsByEmail(email);
     }
 
@@ -76,11 +76,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUser(UserId userId) {
+
         return repository.findById(userId);
     }
 
     @Override
     public void deleteUser(UserId userId) {
+
         repository.deleteById(userId);
+    }
+
+    @Override
+    public long countUsers() {
+        return repository.count();
+    }
+
+    @Override
+    public void deleteAllUsers() {
+        repository.deleteAll();
     }
 }

@@ -23,12 +23,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService) //<.>
-                .passwordEncoder(passwordEncoder); //<.>
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
     }
-    // end::configure-users[]
 
-    // tag::configure-http[]
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -42,5 +40,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().permitAll();
     }
-    // end::configure-http[]
 }

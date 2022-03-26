@@ -1,0 +1,9 @@
+{
+  "name": "apollo-hotel-management-tests",
+  "devDependencies": {
+    "cypress": "^9.5.2",
+    "cypress-multi-reporters": "^1.5.0",
+    "mocha": "^9.2.2",
+    "mochawesome": "^7.1.3"
+  }
+}

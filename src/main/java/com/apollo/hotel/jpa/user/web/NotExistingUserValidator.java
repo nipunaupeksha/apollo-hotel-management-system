@@ -20,7 +20,7 @@ public class NotExistingUserValidator implements ConstraintValidator<NotExisting
         // intentionally empty
     }
 
-    public boolean isValid(AbstractUserFormData formData, ConstraintValidatorContext context) { //<.>
+    public boolean isValid(AbstractUserFormData formData, ConstraintValidatorContext context) {
         if (userService.userWithEmailExists(new Email(formData.getEmail()))) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("{UserAlreadyExisting}")

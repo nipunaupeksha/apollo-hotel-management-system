@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalControllerAdvice {
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({DataIntegrityViolationException.class, ObjectOptimisticLockingFailureException.class}) //<.>
+    @ExceptionHandler({DataIntegrityViolationException.class, ObjectOptimisticLockingFailureException.class})
     public ModelAndView handleConflict(HttpServletRequest request, Exception e) {
         ModelAndView result = new ModelAndView("error/409");
         result.addObject("url", request.getRequestURL());

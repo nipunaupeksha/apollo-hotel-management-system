@@ -65,20 +65,20 @@ class UserRepositoryTest {
 
     @Test
     void testFindAllPageable() {
-        saveUsers(8); //<.>
+        saveUsers(8);
 
-        Sort sort = Sort.by(Sort.Direction.ASC, "userName.lastName", "userName.firstName"); //<.>
-        assertThat(repository.findAll(PageRequest.of(0, 5, sort))) //<.>
-                .hasSize(5) //<.>
-                .extracting(user -> user.getUserName().getFullName()) //<.>
-                .containsExactly("Tommy1 Holt", "Tommy3 Holt", "Tommy5 Holt", "Tommy7 Holt", "Tommy0 Walton"); //<.>
+        Sort sort = Sort.by(Sort.Direction.ASC, "userName.lastName", "userName.firstName");
+        assertThat(repository.findAll(PageRequest.of(0, 5, sort)))
+                .hasSize(5)
+                .extracting(user -> user.getUserName().getFullName())
+                .containsExactly("Tommy1 Holt", "Tommy3 Holt", "Tommy5 Holt", "Tommy7 Holt", "Tommy0 Walton");
 
-        assertThat(repository.findAll(PageRequest.of(1, 5, sort))) //<.>
+        assertThat(repository.findAll(PageRequest.of(1, 5, sort)))
                 .hasSize(3)
                 .extracting(user -> user.getUserName().getFullName())
                 .containsExactly("Tommy2 Walton", "Tommy4 Walton", "Tommy6 Walton");
 
-        assertThat(repository.findAll(PageRequest.of(2, 5, sort))).isEmpty(); //<.>
+        assertThat(repository.findAll(PageRequest.of(2, 5, sort))).isEmpty();
     }
 
     // tag::testFindAllPageable[]
@@ -134,7 +134,7 @@ class UserRepositoryTest {
     @TestConfiguration
     static class TestConfig {
         @Bean
-        public UniqueIdGenerator<UUID> uniqueIdGenerator() { //<.>
+        public UniqueIdGenerator<UUID> uniqueIdGenerator() {
             return new InMemoryUniqueIdGenerator();
         }
     }

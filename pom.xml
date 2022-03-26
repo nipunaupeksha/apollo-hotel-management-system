@@ -25,6 +25,7 @@
         <frontend-maven-plugin.npmVersion>8.1.2</frontend-maven-plugin.npmVersion>
         <testcontainers.version>1.16.2</testcontainers.version>
         <guava.version>31.0.1-jre</guava.version>
+        <testcontainers-cypress.version>1.6.1</testcontainers-cypress.version>
     </properties>
 
     <dependencies>
@@ -103,6 +104,23 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.wimdeblauwe</groupId>
+            <artifactId>testcontainers-cypress</artifactId>
+            <version>${testcontainers-cypress.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -117,6 +135,15 @@
                 </excludes>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test/e2e</directory>
+                <targetPath>e2e</targetPath>
+            </testResource>
+        </testResources>
         <pluginManagement>
             <plugins>
                 <plugin>

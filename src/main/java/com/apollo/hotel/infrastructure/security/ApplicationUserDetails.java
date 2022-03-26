@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ApplicationUserDetails implements UserDetails { //<.>
+public class ApplicationUserDetails implements UserDetails {
     private final UserId id;
     private final String username;
     private final String displayName;
@@ -18,13 +18,13 @@ public class ApplicationUserDetails implements UserDetails { //<.>
     private final Set<GrantedAuthority> authorities;
 
     public ApplicationUserDetails(User user) {
-        this.id = user.getId(); //<.>
-        this.username = user.getEmail().asString(); //<.>
-        this.displayName = user.getUserName().getFullName(); //<.>
-        this.password = user.getPassword(); //<.>
+        this.id = user.getId();
+        this.username = user.getEmail().asString();
+        this.displayName = user.getUserName().getFullName();
+        this.password = user.getPassword();
         this.authorities = user.getRoles().stream()
                 .map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.name()))
-                .collect(Collectors.toSet()); //<.>
+                .collect(Collectors.toSet());
     }
 
     @Override

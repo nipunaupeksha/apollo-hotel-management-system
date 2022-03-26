@@ -19,16 +19,16 @@ public class DatabaseUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Autowired
-    public DatabaseUserDetailsService(UserRepository userRepository) { //<.>
+    public DatabaseUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(new Email(username)) //<.>
+        User user = userRepository.findByEmail(new Email(username))
                 .orElseThrow(() -> new UsernameNotFoundException(
-                        format("User with email %s could not be found", username))); //<.>
+                        format("User with email %s could not be found", username)));
 
-        return new ApplicationUserDetails(user); //<.>
+        return new ApplicationUserDetails(user);
     }
 }

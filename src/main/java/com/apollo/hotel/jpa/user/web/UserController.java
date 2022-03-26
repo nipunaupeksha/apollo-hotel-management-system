@@ -3,7 +3,6 @@ package com.apollo.hotel.jpa.user.web;
 import com.apollo.hotel.infrastructure.validation.ValidationGroupSequence;
 import com.apollo.hotel.infrastructure.web.EditMode;
 import com.apollo.hotel.jpa.user.*;
-import com.apollo.hotel.jpa.user.web.CreateUserFormData;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.annotation.Secured;
@@ -62,7 +61,6 @@ public class UserController {
         return "redirect:/users";
     }
 
-    // tag::edit-get[]
     @GetMapping("/{id}")
     public String editUserForm(@PathVariable("id") UserId userId, Model model) {
         User user = service.getUser(userId)
@@ -72,15 +70,13 @@ public class UserController {
                 new Gender[]{Gender.MALE, Gender.FEMALE, Gender.OTHER}).collect(Collectors.toList()));
         model.addAttribute("possibleRoles", Stream.of(UserRole.values()).collect(Collectors.toList()));
         model.addAttribute("editMode", EditMode.UPDATE);
-        return "users/edit"; //<.>
+        return "users/edit";
     }
-    // end::edit-get[]
 
-    // tag::edit-post[]
     @PostMapping("/{id}")
     @Secured("ROLE_ADMIN")
     public String doEditUser(@PathVariable("id") UserId userId,
-                             @Validated(EditUserValidationGroupSequence.class) @ModelAttribute("user") EditUserFormData formData, //<.>
+                             @Validated(EditUserValidationGroupSequence.class) @ModelAttribute("user") EditUserFormData formData,
                              BindingResult bindingResult,
                              Model model) {
         if (bindingResult.hasErrors()) {

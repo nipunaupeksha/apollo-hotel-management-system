@@ -19,5 +19,9 @@ public interface UserService {
     Optional<User> getUser(UserId userId);
 
     void deleteUser(UserId userId);
+
+    long countUsers();
+
+    void deleteAllUsers();
 }
 
