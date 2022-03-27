@@ -4,6 +4,7 @@ import com.apollo.hotel.infrastructure.validation.ValidationGroupOne;
 import com.apollo.hotel.infrastructure.validation.ValidationGroupTwo;
 import com.apollo.hotel.jpa.user.Gender;
 import com.apollo.hotel.jpa.user.UserRole;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 
@@ -26,6 +27,8 @@ public class AbstractUserFormData {
     @NotBlank
     @Pattern(regexp = "[0-9.\\-() x/+]+", groups = ValidationGroupOne.class)
     private String phoneNumber;
+
+    private MultipartFile avatarFile;
 
     public UserRole getUserRole() {
         return userRole;
@@ -73,6 +76,14 @@ public class AbstractUserFormData {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public MultipartFile getAvatarFile() {
+        return avatarFile;
+    }
+
+    public void setAvatarFile(MultipartFile avatarFile) {
+        this.avatarFile = avatarFile;
     }
 }
 

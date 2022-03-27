@@ -32,10 +32,14 @@ public class CreateUserFormData extends AbstractUserFormData {
     }
 
     public CreateUserParameters toParameters() {
-        return new CreateUserParameters(new UserName(getFirstName(), getLastName()),
+        CreateUserParameters parameters = new CreateUserParameters(new UserName(getFirstName(), getLastName()),
                 password,
                 getGender(),
                 new com.apollo.hotel.jpa.user.Email(getEmail()),
                 new PhoneNumber(getPhoneNumber()));
+        if (getAvatarFile() != null && !getAvatarFile().isEmpty()) {
+            parameters.setAvatar(getAvatarFile());
+        }
+        return parameters;
     }
 }

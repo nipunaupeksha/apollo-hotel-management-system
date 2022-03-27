@@ -35,6 +35,16 @@ public class User extends AbstractVersionedEntity<UserId> {
     @NotNull
     private PhoneNumber phoneNumber;
 
+    private byte[] avatar;
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
     protected User() {
     }
 
