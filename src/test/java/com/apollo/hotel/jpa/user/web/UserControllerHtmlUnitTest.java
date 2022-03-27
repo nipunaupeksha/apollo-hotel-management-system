@@ -129,7 +129,7 @@ public class UserControllerHtmlUnitTest {
         @Bean
         public ITemplateResolver svgTemplateResolver() {
             SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-            resolver.setPrefix("classpath:/templates/svg");
+            resolver.setPrefix("classpath:/templates/svg/");
             resolver.setSuffix(".svg");
             resolver.setTemplateMode("XML");
 

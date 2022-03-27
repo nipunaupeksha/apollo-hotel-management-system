@@ -34,8 +34,8 @@ public class CypressE2eTests {
     @Container
     private static final PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer<>("postgres:12")
             .withDatabaseName("apollo")
-            .withUsername("user")
-            .withPassword("secret");
+            .withUsername("postgres")
+            .withPassword("postgres");
 
     @LocalServerPort
     private int port;
