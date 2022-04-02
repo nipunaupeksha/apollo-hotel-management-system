@@ -20,11 +20,10 @@ public class Reservation extends AbstractVersionedEntity<ReservationId> {
     private LocalDate checkOutDate;
     @NotNull
     @Enumerated(EnumType.STRING)
-    ReservationType reservationType;
+    RoomType roomType;
     @NotNull
     @Enumerated(EnumType.STRING)
-    RoomType roomType;
-
+    ReservationType reservationType;
     protected Reservation() {
     }
 

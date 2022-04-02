@@ -59,11 +59,12 @@ CREATE TABLE ah_reservation(
     id UUID NOT NULL,
     version BIGINT NOT NULL,
     customer_id UUID NOT NULL,
-    checkin_date DATE NOT NULL,
-    checkout_date DATE NOT NULL,
+    check_in_date DATE NOT NULL,
+    check_out_date DATE NOT NULL,
     room_type VARCHAR NOT NULL,
     reservation_type VARCHAR NOT NULL,
     PRIMARY KEY(id)
 );
 
-ALTER TABLE ah_reservation ADD CONSTRAINT FK_reservation_to_customer (customer_id) REFERENCES ah_customer;
+ALTER TABLE ah_reservation
+    ADD CONSTRAINT FK_reservations_to_customer FOREIGN KEY (customer_id) REFERENCES ah_customer;
