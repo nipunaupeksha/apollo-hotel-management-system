@@ -4,17 +4,18 @@ import com.apollo.hotel.jpa.customer.Customer;
 import com.apollo.hotel.jpa.customer.CustomerId;
 import com.apollo.hotel.jpa.customer.CustomerNotFoundException;
 import com.apollo.hotel.jpa.customer.CustomerService;
-import com.google.common.collect.ImmutableSortedSet;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
+@Service
+@Transactional
 public class ReservationServiceImpl implements ReservationService{
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservationServiceImpl.class);
     private final ReservationRepository repository;
@@ -45,8 +46,8 @@ public class ReservationServiceImpl implements ReservationService{
             throw new ObjectOptimisticLockingFailureException(Reservation.class, reservation.getId().asString());
         }
         reservation.setCustomer(getCustomer(parameters.getCustomerId()));
-        reservation.setCheckInDay(parameters.getCheckInDate());
-        reservation.setCheckOutDay(parameters.getCheckOutDate());
+        reservation.setCheckInDate(parameters.getCheckInDate());
+        reservation.setCheckOutDate(parameters.getCheckOutDate());
         reservation.setRoomType(parameters.getRoomType());
         reservation.setReservationType(parameters.getReservationType());
         return reservation;
@@ -79,8 +80,8 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
-    public ImmutableSortedSet<LocalDate> getAllReservationsUsingCheckInDate() {
-        return null;
+    public Page<Reservation> getAllReservationsUsingCheckInDate(Pageable pageable) {
+        return repository.getReservationsByCheckInDate(pageable);
     }
 
     private Customer getCustomer(CustomerId customerId){

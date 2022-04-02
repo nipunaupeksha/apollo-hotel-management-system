@@ -23,5 +23,5 @@ public interface ReservationService {
 
     void deleteAllReservations();
 
-    ImmutableSortedSet<LocalDate> getAllReservationsUsingCheckInDate();
+    Page<Reservation> getAllReservationsUsingCheckInDate(Pageable pageable);
 }

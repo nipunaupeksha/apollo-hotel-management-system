@@ -15,9 +15,9 @@ public class Reservation extends AbstractVersionedEntity<ReservationId> {
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;
     @NotNull
-    private LocalDate checkInDay;
+    private LocalDate checkInDate;
     @NotNull
-    private LocalDate checkOutDay;
+    private LocalDate checkOutDate;
     @NotNull
     @Enumerated(EnumType.STRING)
     ReservationType reservationType;
@@ -30,14 +30,14 @@ public class Reservation extends AbstractVersionedEntity<ReservationId> {
 
     private Reservation(ReservationId id,
                        Customer customer,
-                       LocalDate checkInDay,
-                       LocalDate checkOutDay,
+                       LocalDate checkInDate,
+                       LocalDate checkOutDate,
                        RoomType roomType,
                        ReservationType reservationType) {
         super(id);
         this. customer= customer;
-        this.checkInDay = checkInDay;
-        this.checkOutDay = checkOutDay;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
         this.roomType = roomType;
         this.reservationType = reservationType;
     }
@@ -59,20 +59,20 @@ public class Reservation extends AbstractVersionedEntity<ReservationId> {
         this.customer = customer;
     }
 
-    public LocalDate getCheckInDay() {
-        return checkInDay;
+    public LocalDate getCheckInDate() {
+        return checkInDate;
     }
 
-    public void setCheckInDay(LocalDate checkInDay) {
-        this.checkInDay = checkInDay;
+    public void setCheckInDate(LocalDate checkInDay) {
+        this.checkInDate = checkInDay;
     }
 
-    public LocalDate getCheckOutDay() {
-        return checkOutDay;
+    public LocalDate getCheckOutDate() {
+        return checkOutDate;
     }
 
-    public void setCheckOutDay(LocalDate checkOutDay) {
-        this.checkOutDay = checkOutDay;
+    public void setCheckOutDate(LocalDate checkOutDay) {
+        this.checkOutDate = checkOutDay;
     }
 
     public ReservationType getReservationType() {
