@@ -1,5 +1,6 @@
 package com.apollo.hotel.jpa.customer;
 
+import com.google.common.collect.ImmutableSortedSet;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -22,4 +23,6 @@ public interface CustomerService {
     long countCustomers();
 
     void deleteAllCustomers();
+
+    ImmutableSortedSet<CustomerNameAndId> getAllCustomersNameAndId();
 }

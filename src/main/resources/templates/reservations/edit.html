@@ -1,0 +1,126 @@
+<!-- tag::full[] -->
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}"
+        th:with="activeMenuItem='reservations'">
+
+<head>
+    <title>Reservations</title>
+</head>
+<body>
+<div layout:fragment="page-content">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <h1 class="text-2xl font-semibold text-gray-900"
+            th:text="${editMode?.name() == 'UPDATE'}?#{reservation.edit}:#{reservation.create}">Create Reservation</h1>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <div class="py-4">
+            <div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+
+                <form id="reservation-form"
+                      th:object="${reservation}"
+                      th:action="${editMode?.name() == 'UPDATE'}?@{/reservations/{id}(id=${reservation.id})}:@{/reservations/create}"
+                      method="post">
+                    <div>
+                        <div th:replace="fragments/forms :: fielderrors"></div>
+
+                        <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                            <input type="hidden" th:field="*{version}" th:if="${editMode?.name() == 'UPDATE'}"> <!--.-->
+                            <div class="sm:col-span-3">
+                                <label for="customerId" class="block text-sm font-medium text-gray-700"
+                                       th:text="#{reservation.customer}">
+                                </label>
+                                <div class="mt-1 rounded-md shadow-sm">
+                                    <select th:field="*{customerId}"
+                                            class="max-w-lg block focus:ring-green-500 focus:border-green-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                                        <option th:each="customer : ${customers}"
+                                                th:text="${customer.fullName.fullName}"
+                                                th:value="${customer.id.asString()}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="sm:col-span-6">
+                                <label class="block text-sm font-medium text-gray-700"
+                                       th:text="#{reservation.reservationType}">
+                                    Gender
+                                </label>
+                                <div>
+                                    <th:block th:each="possibleReservationType,iter : ${reservationTypes}">
+                                        <input type="radio"
+                                               th:id="${'reservationType-'+possibleReservationType}"
+                                               th:field="*{reservationType}"
+                                               th:value="${possibleReservationType}"
+                                               class="mr-1 focus:ring-green-500 h-4 w-4 text-green-500 border-gray-300"
+                                               th:classappend="${iter.index > 0 ?'ml-4':''}"
+                                        >
+                                        <label th:for="${'reservationType-'+possibleReservationType}"
+                                               th:text="#{'ReservationType.'+${possibleReservationType}}"
+                                               class="text-sm font-medium text-gray-700">
+                                        </label>
+
+                                    </th:block>
+                                    <p th:if="${#fields.hasErrors('reservationType')}"
+                                       th:text="${#strings.listJoin(#fields.errors('reservationType'), ', ')}"
+                                       class="mt-2 text-sm text-red-600" id="reservation-type-error">Reservation Type validation error message(s).</p>
+                                </div>
+                            </div>
+                            <div class="sm:col-span-6">
+                                <label class="block text-sm font-medium text-gray-700"
+                                       th:text="#{reservation.roomType}">
+                                    Gender
+                                </label>
+                                <div>
+                                    <th:block th:each="possibleRoomType,iter : ${roomTypes}">
+                                        <input type="radio"
+                                               th:id="${'roomType-'+possibleRoomType}"
+                                               th:field="*{roomType}"
+                                               th:value="${possibleRoomType}"
+                                               class="mr-1 focus:ring-green-500 h-4 w-4 text-green-500 border-gray-300"
+                                               th:classappend="${iter.index > 0 ?'ml-4':''}"
+                                        >
+                                        <label th:for="${'roomType-'+possibleRoomType}"
+                                               th:text="#{'RoomType.'+${possibleRoomType}}"
+                                               class="text-sm font-medium text-gray-700">
+                                        </label>
+
+                                    </th:block>
+                                    <p th:if="${#fields.hasErrors('roomType')}"
+                                       th:text="${#strings.listJoin(#fields.errors('roomType'), ', ')}"
+                                       class="mt-2 text-sm text-red-600" id="room-type-error">Room Type validation error message(s).</p>
+                                </div>
+                            </div>
+
+                            <!-- tag::textinputs[] -->
+                            <div th:replace="fragments/forms :: dateinput(#{reservation.checkInDate}, 'checkInDate', 'sm:col-span-3')"></div>
+                            <div th:replace="fragments/forms :: dateinput(#{reservation.checkOutDate}, 'checkOutDate', 'sm:col-span-3')"></div>
+                            <div class="sm:col-span-2"></div>
+                            <!-- end::textinputs[] -->
+                        </div>
+                    </div>
+                    <div class="mt-8 border-t border-gray-200 pt-5">
+                        <div class="flex justify-end">
+      <span class="inline-flex rounded-md shadow-sm">
+        <button type="button"
+                class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                th:text="#{cancel}">
+          Cancel
+        </button>
+      </span>
+                            <span class="ml-3 inline-flex rounded-md shadow-sm">
+        <button type="submit"
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                th:text="${editMode?.name() == 'UPDATE'}?#{save}:#{create}">
+          Save
+        </button>
+      </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

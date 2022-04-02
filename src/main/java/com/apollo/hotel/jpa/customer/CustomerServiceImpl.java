@@ -1,6 +1,7 @@
 package com.apollo.hotel.jpa.customer;
 
 
+import com.google.common.collect.ImmutableSortedSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -9,7 +10,10 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -80,5 +84,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteAllCustomers() {
         repository.deleteAll();
+    }
+
+    @Override
+    public ImmutableSortedSet<CustomerNameAndId> getAllCustomersNameAndId() {
+        Iterable<Customer> customers= repository.findAll();
+        return ImmutableSortedSet.copyOf(Comparator.comparing(
+                fullNameAndId->fullNameAndId.getFullName().getFullName()),
+                StreamSupport.stream(customers.spliterator(), false)
+                        .map(customer->new CustomerNameAndId(customer.getId(), customer.getFullName()))
+                        .sorted(Comparator.comparing(customerNameAndId -> customerNameAndId.getFullName().getFullName()))
+                        .collect(Collectors.toList()));
     }
 }

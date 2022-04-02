@@ -1,7 +1,6 @@
 package com.apollo.hotel.jpa.reservation;
 
 import com.apollo.hotel.jpa.customer.CustomerId;
-import jdk.vm.ci.meta.Local;
 
 import java.time.LocalDate;
 

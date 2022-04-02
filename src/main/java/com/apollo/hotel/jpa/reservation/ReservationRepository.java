@@ -8,7 +8,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
 public interface ReservationRepository extends PagingAndSortingRepository<Reservation, ReservationId>, ReservationRepositoryCustom {
-    @Query(value = "SELECT * FROM ah_reservation order by checkin_data",
-    nativeQuery = true)
-    Page<Reservation> getReservationsByCheckInDate(Pageable pageable);
 }

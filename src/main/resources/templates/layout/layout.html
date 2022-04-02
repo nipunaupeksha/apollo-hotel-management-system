@@ -9,6 +9,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.1.0/dist/duet/duet.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.0.1/dist/duet/duet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@1.25.0/build/global/luxon.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.1.0/dist/duet/themes/default.css"/>
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link rel="stylesheet" th:href="@{/css/application.css}">
 </head>
@@ -48,6 +52,32 @@
             isVisible() {
                 return this.show === true;
             }
+        };
+    }
+</script>
+<script>
+    const picker = document.querySelector('duet-date-picker');
+
+    if(picker) {
+        picker.dateAdapter = {
+            parse(value = '', createDate) { // <.>
+                try {
+                    let fromFormat = luxon.DateTime.fromFormat(value, 'yyyy-LL-dd');
+                    if (fromFormat.isValid) {
+                        return createDate(fromFormat.year, fromFormat.month, fromFormat.day);
+                    } else {
+                        console.log('fromFormat not valid');
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+            },
+            format(date) { // <.>
+                var DateTime = luxon.DateTime;
+                return DateTime.fromJSDate(date) // <.>
+                    .setLocale('[[${#strings.replace(#locale, '_', '-')}]]') // <.>
+            .toFormat('d LLLL yyyy'); // <.>
+            },
         };
     }
 </script>

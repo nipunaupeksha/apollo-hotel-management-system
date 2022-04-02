@@ -25,10 +25,10 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        for (int i = 0; i < 20; i++) {
+        /*for (int i = 0; i < 20; i++) {
             CreateUserParameters parameters = newRandomUserParameters();
             userService.createUser(parameters);
-        }
+        }*/
 
         UserName userName = randomUserName();
         CreateUserParameters parameters = new CreateUserParameters(userName,

@@ -22,6 +22,4 @@ public interface ReservationService {
     long countReservations();
 
     void deleteAllReservations();
-
-    Page<Reservation> getAllReservationsUsingCheckInDate(Pageable pageable);
 }

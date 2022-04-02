@@ -9,7 +9,7 @@ public class EditReservationFormData extends AbstractReservationFormData {
     private String id;
     private long version;
 
-    public static EditReservationFormData fromCustomer(Reservation reservation) {
+    public static EditReservationFormData fromReservation(Reservation reservation) {
         EditReservationFormData result = new EditReservationFormData();
         result.setId(reservation.getId().asString());
         result.setVersion(reservation.getVersion());

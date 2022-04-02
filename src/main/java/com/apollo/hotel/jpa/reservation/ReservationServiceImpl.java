@@ -4,6 +4,7 @@ import com.apollo.hotel.jpa.customer.Customer;
 import com.apollo.hotel.jpa.customer.CustomerId;
 import com.apollo.hotel.jpa.customer.CustomerNotFoundException;
 import com.apollo.hotel.jpa.customer.CustomerService;
+import com.google.common.collect.ImmutableSortedSet;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
@@ -77,11 +78,6 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public void deleteAllReservations() {
     repository.deleteAll();
-    }
-
-    @Override
-    public Page<Reservation> getAllReservationsUsingCheckInDate(Pageable pageable) {
-        return repository.getReservationsByCheckInDate(pageable);
     }
 
     private Customer getCustomer(CustomerId customerId){
