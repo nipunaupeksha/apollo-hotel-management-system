@@ -44,7 +44,7 @@
                             <div class="sm:col-span-6">
                                 <label class="block text-sm font-medium text-gray-700"
                                        th:text="#{reservation.reservationType}">
-                                    Gender
+                                    Reservation Type
                                 </label>
                                 <div>
                                     <th:block th:each="possibleReservationType,iter : ${reservationTypes}">
@@ -69,7 +69,7 @@
                             <div class="sm:col-span-6">
                                 <label class="block text-sm font-medium text-gray-700"
                                        th:text="#{reservation.roomType}">
-                                    Gender
+                                    Room Type
                                 </label>
                                 <div>
                                     <th:block th:each="possibleRoomType,iter : ${roomTypes}">
@@ -95,6 +95,32 @@
                             <!-- tag::textinputs[] -->
                             <div th:replace="fragments/forms :: dateinput(#{reservation.checkInDate}, 'checkInDate', 'sm:col-span-3')"></div>
                             <div th:replace="fragments/forms :: dateinput(#{reservation.checkOutDate}, 'checkOutDate', 'sm:col-span-3')"></div>
+                            <div th:replace="fragments/forms :: textinput(#{reservation.amount}, 'amount', 'sm:col-span-3')"></div>
+                            <div class="sm:col-span-6">
+                                <label class="block text-sm font-medium text-gray-700"
+                                       th:text="#{reservation.paymentMethod}">
+                                    Payment Method
+                                </label>
+                                <div>
+                                    <th:block th:each="possiblePaymentMethod,iter : ${paymentMethods}">
+                                        <input type="radio"
+                                               th:id="${'paymentMethod-'+possiblePaymentMethod}"
+                                               th:field="*{paymentMethod}"
+                                               th:value="${possiblePaymentMethod}"
+                                               class="mr-1 focus:ring-green-500 h-4 w-4 text-green-500 border-gray-300"
+                                               th:classappend="${iter.index > 0 ?'ml-4':''}"
+                                        >
+                                        <label th:for="${'paymentMethod-'+possiblePaymentMethod}"
+                                               th:text="#{'PaymentMethod.'+${possiblePaymentMethod}}"
+                                               class="text-sm font-medium text-gray-700">
+                                        </label>
+
+                                    </th:block>
+                                    <p th:if="${#fields.hasErrors('paymentMethod')}"
+                                       th:text="${#strings.listJoin(#fields.errors('paymentMethod'), ', ')}"
+                                       class="mt-2 text-sm text-red-600" id="payment-method-error">Payment Method validation error message(s).</p>
+                                </div>
+                            </div>
                             <div class="sm:col-span-2"></div>
                             <!-- end::textinputs[] -->
                         </div>
@@ -102,11 +128,12 @@
                     <div class="mt-8 border-t border-gray-200 pt-5">
                         <div class="flex justify-end">
       <span class="inline-flex rounded-md shadow-sm">
-        <button type="button"
+        <a th:href="@{/reservations}">
+          <button type="button"
                 class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                 th:text="#{cancel}">
           Cancel
-        </button>
+          </button></a>
       </span>
                             <span class="ml-3 inline-flex rounded-md shadow-sm">
         <button type="submit"

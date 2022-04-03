@@ -20,10 +20,15 @@ public class Reservation extends AbstractVersionedEntity<ReservationId> {
     private LocalDate checkOutDate;
     @NotNull
     @Enumerated(EnumType.STRING)
-    RoomType roomType;
+    private RoomType roomType;
     @NotNull
     @Enumerated(EnumType.STRING)
-    ReservationType reservationType;
+    private ReservationType reservationType;
+    @NotNull
+    private Amount amount;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
     protected Reservation() {
     }
 
@@ -32,13 +37,33 @@ public class Reservation extends AbstractVersionedEntity<ReservationId> {
                        LocalDate checkInDate,
                        LocalDate checkOutDate,
                        RoomType roomType,
-                       ReservationType reservationType) {
+                       ReservationType reservationType,
+                        Amount amount,
+                        PaymentMethod paymentMethod) {
         super(id);
         this. customer= customer;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.roomType = roomType;
         this.reservationType = reservationType;
+        this.amount = amount;
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Amount getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Amount amount) {
+        this.amount = amount;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public static Reservation createReservation(ReservationId id,
@@ -46,8 +71,10 @@ public class Reservation extends AbstractVersionedEntity<ReservationId> {
                                                 LocalDate checkInDay,
                                                 LocalDate checkOutDay,
                                                 RoomType roomType,
-                                                ReservationType reservationType){
-        return new Reservation(id, customer, checkInDay, checkOutDay, roomType, reservationType);
+                                                ReservationType reservationType,
+                                                Amount amount,
+                                                PaymentMethod paymentMethod){
+        return new Reservation(id, customer, checkInDay, checkOutDay, roomType, reservationType, amount, paymentMethod);
     }
 
     public Customer getCustomer() {

@@ -11,17 +11,23 @@ public class CreateReservationParameters {
     private final LocalDate checkOutDate;
     private final RoomType roomType;
     private final ReservationType reservationType;
+    private final Amount amount;
+    private final PaymentMethod paymentMethod;
 
     public CreateReservationParameters(CustomerId customerId,
                                        LocalDate checkInDate,
                                        LocalDate checkOutDate,
                                        RoomType roomType,
-                                       ReservationType reservationType){
+                                       ReservationType reservationType,
+                                       Amount amount,
+                                       PaymentMethod paymentMethod){
         this.customerId = customerId;
         this.checkInDate  = checkInDate;
         this.checkOutDate = checkOutDate;
         this.roomType = roomType;
         this.reservationType = reservationType;
+        this.amount = amount;
+        this.paymentMethod =paymentMethod;
     }
 
     public CustomerId getCustomerId() {
@@ -42,5 +48,13 @@ public class CreateReservationParameters {
 
     public ReservationType getReservationType() {
         return reservationType;
+    }
+
+    public Amount getAmount() {
+        return amount;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
     }
 }

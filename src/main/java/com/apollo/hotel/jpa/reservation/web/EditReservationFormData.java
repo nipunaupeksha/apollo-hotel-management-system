@@ -16,7 +16,8 @@ public class EditReservationFormData extends AbstractReservationFormData {
         result.setCheckOutDate(reservation.getCheckOutDate());
         result.setRoomType(reservation.getRoomType());
         result.setReservationType(reservation.getReservationType());
-
+        result.setAmount(reservation.getAmount());
+        result.setPaymentMethod(reservation.getPaymentMethod());
         return result;
     }
 
@@ -26,7 +27,9 @@ public class EditReservationFormData extends AbstractReservationFormData {
                 getCheckInDate(),
                 getCheckOutDate(),
                 getRoomType(),
-                getReservationType());
+                getReservationType(),
+                getAmount(),
+                getPaymentMethod());
     }
 
     public String getId() {

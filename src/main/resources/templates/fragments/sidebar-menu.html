@@ -49,10 +49,10 @@
             </div>
             <div class="mt-5 flex-1 h-0 overflow-y-auto">
                 <nav class="px-2">
-                    <a th:replace="fragments/sidebar-buttons :: mobile-button(link='#', title='#{menu.dashboard}', menuItem='dashboard', icon='dashboard')"></a>
+<!--                    <a th:replace="fragments/sidebar-buttons :: mobile-button(link='#', title='#{menu.dashboard}', menuItem='dashboard', icon='dashboard')"></a>-->
                     <a th:replace="fragments/sidebar-buttons :: desktop-button(link=@{/users}, title='Users', menuItem='#{menu.users}', icon='users')"></a>
                     <a th:replace="fragments/sidebar-buttons :: mobile-button(link=@{/customers}, title='#{menu.customers}', menuItem='customers', icon='customers')"></a>
-                    <a th:replace="fragments/sidebar-buttons :: mobile-button(link=@{/payments}, title='#{menu.payments}', menuItem='payments', icon='payments')"></a>
+<!--                    <a th:replace="fragments/sidebar-buttons :: mobile-button(link=@{/payments}, title='#{menu.payments}', menuItem='payments', icon='payments')"></a>-->
                     <a th:replace="fragments/sidebar-buttons :: mobile-button(link=@{/reservations}, title='#{menu.reservations}', menuItem='reservtions', icon='reservations')"></a>
                     <a th:replace="fragments/sidebar-buttons :: mobile-button(link=@{/employees}, title='#{menu.employees}', menuItem='employees', icon='employees')"></a>
                 </nav>
@@ -73,10 +73,10 @@
             <div class="mt-5 flex-grow flex flex-col">
                 <!-- tag::desktop-nav[] -->
                 <nav class="flex-1 px-2 bg-white">
-                    <a th:replace="fragments/sidebar-buttons :: desktop-button(link='#', title='Dashboard', menuItem='#{menu.dashboard}', icon='dashboard')"></a>
+<!--                    <a th:replace="fragments/sidebar-buttons :: desktop-button(link='#', title='Dashboard', menuItem='#{menu.dashboard}', icon='dashboard')"></a>-->
                     <a th:replace="fragments/sidebar-buttons :: desktop-button(link=@{/users}, title='Users', menuItem='#{menu.users}', icon='users')"></a>
                     <a th:replace="fragments/sidebar-buttons :: desktop-button(link=@{/customers}, title='Customers', menuItem='#{menu.customers}', icon='customers')"></a>
-                    <a th:replace="fragments/sidebar-buttons :: desktop-button(link=@{/payments}, title='Payments', menuItem='#{menu.payments}', icon='payments')"></a>
+<!--                    <a th:replace="fragments/sidebar-buttons :: desktop-button(link=@{/payments}, title='Payments', menuItem='#{menu.payments}', icon='payments')"></a>-->
                     <a th:replace="fragments/sidebar-buttons :: desktop-button(link=@{/reservations}, title='Reservations', menuItem='#{menu.reservations}', icon='reservations')"></a>
                     <a th:replace="fragments/sidebar-buttons :: desktop-button(link=@{/employees}, title='Employees', menuItem='#{menu.employees}', icon='employees')"></a>
                 </nav>

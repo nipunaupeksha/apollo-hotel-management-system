@@ -38,7 +38,9 @@ public class ReservationServiceImpl implements ReservationService {
                 parameters.getCheckInDate(),
                 parameters.getCheckOutDate(),
                 parameters.getRoomType(),
-                parameters.getReservationType());
+                parameters.getReservationType(),
+                parameters.getAmount(),
+                parameters.getPaymentMethod());
         return repository.save(reservation);
     }
 

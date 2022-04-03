@@ -44,6 +44,9 @@ public class ReservationController {
                 new RoomType[]{RoomType.SUPERIOR, RoomType.DELUXE, RoomType.SUITE, RoomType.VILLA}).collect(Collectors.toList()));
         model.addAttribute("reservationTypes", Stream.of(
                 new ReservationType[]{ReservationType.BB, ReservationType.FULL_BOARD, ReservationType.HALF_BOARD}).collect(Collectors.toList()));
+        model.addAttribute("paymentMethods", Stream.of(
+                new PaymentMethod[]{PaymentMethod.CASH, PaymentMethod.CREDIT_CARD, PaymentMethod.DEBIT_CARD}).collect(Collectors.toList()));
+
         model.addAttribute("editMode", EditMode.CREATE);
         return "reservations/edit";
     }
@@ -58,6 +61,9 @@ public class ReservationController {
             model.addAttribute("reservationTypes", Stream.of(
                     new ReservationType[]{ReservationType.BB, ReservationType.FULL_BOARD, ReservationType.HALF_BOARD}).collect(Collectors.toList()));
             model.addAttribute("editMode", EditMode.CREATE);
+            model.addAttribute("paymentMethods", Stream.of(
+                    new PaymentMethod[]{PaymentMethod.CASH, PaymentMethod.CREDIT_CARD, PaymentMethod.DEBIT_CARD}).collect(Collectors.toList()));
+
             return "reservations/edit";
         }
 
@@ -77,6 +83,9 @@ public class ReservationController {
         model.addAttribute("reservationTypes", Stream.of(
                 new ReservationType[]{ReservationType.BB, ReservationType.FULL_BOARD, ReservationType.HALF_BOARD}).collect(Collectors.toList()));
         model.addAttribute("editMode", EditMode.UPDATE);
+        model.addAttribute("paymentMethods", Stream.of(
+                new PaymentMethod[]{PaymentMethod.CASH, PaymentMethod.CREDIT_CARD, PaymentMethod.DEBIT_CARD}).collect(Collectors.toList()));
+
         return "reservations/edit";
     }
 
@@ -92,6 +101,9 @@ public class ReservationController {
             model.addAttribute("reservationTypes", Stream.of(
                     new ReservationType[]{ReservationType.BB, ReservationType.FULL_BOARD, ReservationType.HALF_BOARD}).collect(Collectors.toList()));
             model.addAttribute("editMode", EditMode.UPDATE);
+            model.addAttribute("paymentMethods", Stream.of(
+                    new PaymentMethod[]{PaymentMethod.CASH, PaymentMethod.CREDIT_CARD, PaymentMethod.DEBIT_CARD}).collect(Collectors.toList()));
+
             return "reservations/edit";
         }
 

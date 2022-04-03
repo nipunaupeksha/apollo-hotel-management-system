@@ -63,6 +63,8 @@ CREATE TABLE ah_reservation(
     check_out_date DATE NOT NULL,
     room_type VARCHAR NOT NULL,
     reservation_type VARCHAR NOT NULL,
+    amount VARCHAR NOT NULL,
+    payment_method VARCHAR NOT NULL,
     PRIMARY KEY(id)
 );
 

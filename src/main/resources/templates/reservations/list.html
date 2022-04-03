@@ -9,7 +9,7 @@
 </head>
 <body>
 <div layout:fragment="page-content">
-    <div th:replace="fragments/titles :: title-with-button(#{reservations.title}, 'user-add', #{reservations.add}, @{/reservations/create})"></div>
+    <div th:replace="fragments/titles :: title-with-button(#{reservations.title}, 'reservation-add', #{reservations.add}, @{/reservations/create})"></div>
 
     <div th:if="${deletedReservationId}">
         <div th:replace="fragments/alerts :: success(#{reservation.delete.success(${deletedReservationId})})"></div>

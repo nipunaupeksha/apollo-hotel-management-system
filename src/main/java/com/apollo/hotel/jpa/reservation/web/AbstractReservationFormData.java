@@ -1,6 +1,8 @@
 package com.apollo.hotel.jpa.reservation.web;
 
 import com.apollo.hotel.jpa.customer.CustomerId;
+import com.apollo.hotel.jpa.reservation.Amount;
+import com.apollo.hotel.jpa.reservation.PaymentMethod;
 import com.apollo.hotel.jpa.reservation.ReservationType;
 import com.apollo.hotel.jpa.reservation.RoomType;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,6 +27,12 @@ public class AbstractReservationFormData {
 
     @NotNull
     private ReservationType reservationType;
+
+    @NotNull
+    private Amount amount;
+
+    @NotNull
+    private PaymentMethod paymentMethod;
 
     public CustomerId getCustomerId() {
         return customerId;
@@ -52,6 +60,22 @@ public class AbstractReservationFormData {
 
     public RoomType getRoomType() {
         return roomType;
+    }
+
+    public Amount getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Amount amount) {
+        this.amount = amount;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public void setRoomType(RoomType roomType) {

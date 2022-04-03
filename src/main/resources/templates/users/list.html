@@ -26,6 +26,7 @@
                                 <th th:replace="fragments/table :: header(#{user.name})"></th>
                                 <th th:replace="fragments/table :: header(title=#{user.gender},hideOnMobile=true)"></th>
                                 <th th:replace="fragments/table :: header(title=#{user.email},hideOnMobile=true)"></th>
+                                <th th:replace="fragments/table :: header(title=#{user.phoneNumber},hideOnMobile=true)"></th>
                                 <th:block sec:authorize="hasRole('ADMIN')"> <!--.-->
                                     <th th:replace="fragments/table :: header('')"></th>
                                     <th th:replace="fragments/table :: header('')"></th>
@@ -37,6 +38,7 @@
                                 <td th:replace="fragments/table :: data(contents=${user.userName.fullName},primary=true)"></td>
                                 <td th:replace="fragments/table :: data(contents=${user.gender},hideOnMobile=true)"></td>
                                 <td th:replace="fragments/table :: data(contents=${user.email.asString()},hideOnMobile=true)"></td>
+                                <td th:replace="fragments/table :: data(contents=${user.phoneNumber.asString()},hideOnMobile=true)"></td>
                                 <!-- tag::td-admin[] -->
                                 <th:block sec:authorize="hasRole('ADMIN')"> <!--.-->
                                     <td th:replace="fragments/table :: dataWithLink('Edit', @{'/users/'+ ${user.id.asString()}})"></td>
