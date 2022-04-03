@@ -1,7 +1,5 @@
 package com.apollo.hotel.jpa.reservation.web;
 
-
-import com.apollo.hotel.jpa.customer.web.AbstractCustomerFormData;
 import com.apollo.hotel.jpa.reservation.EditReservationParameters;
 import com.apollo.hotel.jpa.reservation.Reservation;
 

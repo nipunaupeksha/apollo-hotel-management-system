@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 public interface ReservationService {
@@ -22,4 +21,6 @@ public interface ReservationService {
     long countReservations();
 
     void deleteAllReservations();
+
+    ImmutableSortedSet<CustomerAndCheckInDate> getCustomerAndCheckInDate();
 }
